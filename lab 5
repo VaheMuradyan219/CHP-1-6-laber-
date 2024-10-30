@@ -1,0 +1,45 @@
+class MatrixEncoder:
+    def __init__(self, input_sentence, num_rows):
+    #Mutqayin naxadasutyan himan vra stecvum e matrix
+        self.sentence = input_sentence  
+        self.rows = num_rows 
+        self.matrix = []   sentence
+        self.create_matrix()  
+    def create_matrix(self):
+        
+        length = len(self.sentence)  # Get the length of the sentence
+        cols = (length + self.rows - 1) // self.rows  # Calculate the required number of columns
+        self.matrix = [[' ' for _ in range(cols)] for _ in range(self.rows)]  # Initialize the matrix with spaces
+        #Stexcum enq matrix  vortex naxadasutyan nishere bajanvum en toxeri ev syuneri vra
+        index = 0 
+        #Naxadasutyan mej dirqe voroshelu hamar 
+        for j in range(cols):
+            for i in range(self.rows):
+                if index < length:  
+                    self.matrix[i][j] = self.sentence[index]  
+                    index += 1  
+
+    def display_matrix(self):
+        for row in self.matrix:
+            print(" ".join(row)) 
+
+    def encode_sentence(self):
+        encoded = ""
+        for j in range(len(self.matrix[0])):  
+            for i in range(self.rows):  
+                encoded += self.matrix[i][j]
+        return encoded 
+
+
+if __name__ == "__main__":
+    sentence = input("Enter a sentence: ")
+    rows = int(input("Enter the number of rows: "))
+
+
+    encoder = MatrixEncoder(sentence, rows)
+    
+    print("Matrix:")
+    encoder.display_matrix()
+
+    encoded_sentence = encoder.encode_sentence()
+    print(f"Encoded sentence: {encoded_sentence}")
