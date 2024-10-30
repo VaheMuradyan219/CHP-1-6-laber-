@@ -1,0 +1,73 @@
+import random
+
+class Crypto:
+    # Abstrakciayi metod
+    def encrypt(self, src, src_size, p_out, out_size):
+        raise NotImplementedError
+    
+    def decrypt(self, src, src_size, p_out, out_size):
+        raise NotImplementedError
+
+class Shablon(Crypto):
+    TemplateSize = 256
+
+    def __init__(self):
+        self.m_encrypt_table = [i for i in range(self.TemplateSize)]
+        self.m_decrypt_table = [i for i in range(self.TemplateSize)]
+        self.set_template_table()
+
+    def set_template_table(self):
+        # Patahakanoren xarnenq m_encrypt_table
+        random.seed()
+        random.shuffle(self.m_encrypt_table)
+
+        # Lracnenq  m_decrypt_table-e  on m_encrypt_table-i himan vra
+        for i in range(self.TemplateSize):
+            self.m_decrypt_table[self.m_encrypt_table[i]] = i
+
+    def encrypt(self, src, src_size, p_out, out_size):
+        if not src or not p_out or src_size > out_size:
+            return -1
+        for i in range(src_size):
+            p_out[i] = self.m_encrypt_table[src[i]]
+        out_size[0] = src_size
+        return 0
+
+    def decrypt(self, src, src_size, p_out, out_size):
+        if not src or not p_out or src_size > out_size:
+            return -1
+        for i in range(src_size):
+            p_out[i] = self.m_decrypt_table[src[i]]
+        out_size[0] = src_size
+        return 0
+def print_hex(data, size):
+    print(' '.join(f'{byte:02X}' for byte in data[:size]))
+
+# Main function
+def main():
+    input_text = input("Naxadasutyun: ")
+    src = list(input_text.encode('utf-8'))
+    dest = [0] * 1024
+    decrypt = [0] * 1024
+    size = len(input_text)
+    out_size = [0]
+
+    cipher = Shablon()
+
+    # Texti gaxtnagrum
+    if cipher.encrypt(src, size, dest, out_size) != 0:
+        print("Failed...")
+        return -1
+
+    print("Kodavorvac text: ", end="")
+    print_hex(dest, out_size[0])
+
+    # Texti vercanum
+    if cipher.decrypt(dest, out_size[0], decrypt, out_size) != 0:
+        print("Failed...")
+        return -2
+    decrypted_text = bytes(decrypt[:out_size[0]]).decode('utf-8')
+    print(f"Dekodavorvac text: {decrypted_text}")
+
+if __name__ == "__main__":
+    main()
