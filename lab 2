@@ -1,0 +1,29 @@
+class NumberOperations:
+    def __init__(self, n1, n2):
+        # Ստեղծում ենք օբյեկտի երկու պարամետրեր `num1` և `num2`
+        self.num1 = n1
+        self.num2 = n2
+
+    # GCD մեթոդ (Եվկլիդեսյան ալգորիթմով)
+    def gcd(self, a, b):
+        if b == 0:
+            return a
+        return self.gcd(b, a % b)
+
+    # LCM մեթոդ
+    def lcm(self):
+        # num1,  num2 թվերը համարում ենք բացարձակ արժեքներ
+        abs_num1 = abs(self.num1)
+        abs_num2 = abs(self.num2)
+        return (abs_num1 * abs_num2) // self.gcd(abs_num1, abs_num2)
+
+    # LCM-ի արդյունքը տպելու մեթոդ
+    def display_lcm(self):
+        # Տպում ենք LCM-ի արժեքը
+        print(f"LCM of {self.num1} and {self.num2} is: {self.lcm()}")
+if __name__ == "__main__":
+    num1, num2 = map(int, input("Enter two numbers: ").split())
+    
+    # Ստեղծում ենք NumberOperations օբյեկտ
+    operation = NumberOperations(num1, num2)
+    operation.display_lcm()
