@@ -1,0 +1,25 @@
+class RunLengthEncoder:
+    def encode(self, input_str):
+        # Kodavorac nishery pahelu cucak 
+        encoded = [] 
+        n = len(input_str)
+
+        i = 0
+        while i < n:
+            count = 1  # Krknvox nisheri qanak 
+            # Stugum yntaciky ev hajordy nuyn nishn en te vch
+            while i + 1 < n and input_str[i] == input_str[i + 1]:
+                count += 1 
+                i += 1  # Ancum hajord nish 
+            # Kodavorvac cucakin avelacnel nishy ev dra qanaky
+            encoded.append(f"{input_str[i]}{count}")  
+            i += 1 
+        # Miavor 1 toxi mej kodavorvac nishery 
+        return ''.join(encoded)
+
+if __name__ == "__main__": 
+    rle = RunLengthEncoder()  
+    input_str = input("Naxadasutyun: ") 
+    encoded = rle.encode(input_str)  
+    
+    print("Encoded:", encoded)  
